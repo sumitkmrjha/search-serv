@@ -44,4 +44,4 @@ In it's current state, The search is
        
 * query results 
 
-            http://<Elasticsearch URL>:3001/search?q=<your query string>   
+            http://54.179.4.29:3001/search?q=<your query string>   

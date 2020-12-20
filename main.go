@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/shakesearch/server"
+	"search-serv/server"
 )
 
 func main() {

@@ -2,7 +2,7 @@ package server
 
 import (
 	"fmt"
-	"github.com/shakesearch/searcher"
+	"search-serv/searcher"
 	"log"
 	"net/http"
 	"os"

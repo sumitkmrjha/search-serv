@@ -1,6 +1,6 @@
 package searcher
 
-import "github.com/shakesearch/dao"
+import "search-serv/dao"
 
 type Searcher struct {
 	searchDao *dao.SearchDao

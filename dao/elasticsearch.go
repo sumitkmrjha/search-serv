@@ -13,7 +13,6 @@ import (
 )
 
 func (s *SearchDao)LoadIntoES(filepath string) error{
-	return nil
 	file, err := os.Open(filepath)
 	if err != nil {
 		log.Fatal(err)
@@ -23,22 +22,27 @@ func (s *SearchDao)LoadIntoES(filepath string) error{
 
 	scanner := bufio.NewScanner(file)
 	line_id := 1
-
+	// Reading line by line
+	var paragraph string
+	paragraph = ""
 	// Reading line by line
 	for scanner.Scan() {
 		line := scanner.Text()
-
-		var b strings.Builder
-		b.WriteString(`{"line" : "`)
-		b.WriteString(line)
-		b.WriteString(`"}`)
-
-		if(len(line) > 0){  //Skipping empty lines
+		if(len(line) > 0){  //reading complete paragraph 
+			if(len(paragraph) == 0) {
+				paragraph = paragraph + line
+			}else{
+				paragraph = paragraph + line
+			}
+		}else{
 			line_id = line_id + 1 // Generating auto-increament ID for the doc
 			// Set up the request object.
+			var b strings.Builder
+			b.WriteString(`{"line" : "`)
+			b.WriteString(paragraph)
+			b.WriteString(`"}`)
 			req := esapi.IndexRequest {
 				Index:      s.index_name,
-				DocumentType: s.doc_type,
 				DocumentID: strconv.Itoa(line_id),
 				Body:       strings.NewReader(b.String()),
 				Refresh:    "true",
@@ -63,6 +67,7 @@ func (s *SearchDao)LoadIntoES(filepath string) error{
 					log.Printf("[%s] %s; version=%d", res.Status(), r["result"], int(r["_version"].(float64)))
 				}
 			}
+			paragraph = ""
 		}
 	}
 	return nil
@@ -89,7 +94,7 @@ func (s *SearchDao) SearchPrefixBasedMatchFromES(key string) map[string]interfac
 	res, err := s.esClient.Search(
 		s.esClient.Search.WithContext(context.Background()),
 		s.esClient.Search.WithIndex(s.index_name),
-		s.esClient.Search.WithDocumentType(s.doc_type),
+		s.esClient.Search.WithSize(10),
 		s.esClient.Search.WithBody(&buf),
 		s.esClient.Search.WithTrackTotalHits(true),
 		s.esClient.Search.WithPretty(),

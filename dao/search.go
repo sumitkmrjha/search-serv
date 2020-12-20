@@ -32,7 +32,6 @@ import (
 type SearchDao struct{
 	esClient *elasticsearch.Client
 	index_name string
-	doc_type string
 }
 
 func (s *SearchDao)Init() error{
@@ -41,8 +40,8 @@ func (s *SearchDao)Init() error{
 	if err != nil {
 		log.Fatalf("Error creating the client: %s", err)
 	}
-
-	err = s.LoadIntoES("/Users/sumitjha/source/go/src/github.com/shakesearch/dao/completeworks.txt")
+	s.index_name = "test1" //TODO: remove hard-coded index name
+	err = s.LoadIntoES("/home/ubuntu/search-serv/dao/completeworks.txt") //TODO:  remove hardcoded values
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -68,10 +67,6 @@ func fetchLines(r map[string]interface{}) []string{
 	return ListLine
 }
 
-func (s *SearchDao) SearchExactMatch(query_string string) []string {
-	r := s.searchExactMatchFromES(query_string)
-	return fetchLines(r)
-}
 
 
 func (s *SearchDao) SearchPrefixBasedMatch(query_string string) []string {
