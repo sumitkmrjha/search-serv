@@ -8,8 +8,8 @@ Behavior of search result will be like below
     1. not case sensitive("Ham" and "ham" will result same)(Status : Done)
     2. Exclude any extra whitespaces("Ham " and "    ham"  will give same search result)(Status: Done)
     3. Prefex based and exact search (Status : Done) 
-    4. suffix based search(TODO) 
-    5. substring search (TODO, approach : using ngram tokenizer of elasticsearch feature)
+    4. suffix based search(status: TODO) 
+    5. substring search (status : TODO, approach : using ngram tokenizer of elasticsearch feature)
     (Note : 3rd will have  more precedence followed by 4 and then 5. example : "ham" will first published result of)
     ham.* then .*ham and then .*ham.* )
     6. Only top 10 Result will be published instead of all the results(status: Done) . Todo : Result should be in paginated way(based on click next), example : top 10 results in first go 
