@@ -5,14 +5,14 @@ the complete works of Shakespeare.
 
 Behavior of search result will be like below
 
-    1. not case sensitive("Ham" and "ham" will result same)(Status : Done)
-    2. Exclude any extra whitespaces("Ham " and "    ham"  will give same search result)(Status: Done)
-    3. Prefex based and exact search (Status : Done) 
+    1. not case sensitive("Ham" and "ham" will result same)(Status : Done, Approach: Query in elasticsearch is default case-insensative)
+    2. Exclude any extra whitespaces("Ham " and "    ham"  will give same search result)(Status: Done, Approach: Query in elasticsearch removes extra spaces by default)
+    3. Prefex based and exact search (Status : Done, Approach: used match_phrase_prefix keyword in elasticsearch query to get prefix based matching results) 
     4. suffix based search(status: TODO) 
     5. substring search (status : TODO, approach : using ngram tokenizer of elasticsearch feature)
     (Note : 3rd will have  more precedence followed by 4 and then 5. example : "ham" will first published result of)
     ham.* then .*ham and then .*ham.* )
-    6. Only top 10 Result will be published instead of all the results(status: Done) . Todo : Result should be in paginated way(based on click next), example : top 10 results in first go 
+    6. Only top 10 Result will be published instead of all the results(status: Done, Approach : elasticsearch ranked based on the match by default, have used size keyword in query to get top 10 results) . Todo : Result should be in paginated way(based on click next), example : top 10 results in first go 
     Note : Result of 3,4 and 5 is not limited to search for one word, user can type multiple keywords and search results     
     will be ranked to its priority order . In layman term, consider searching over google search engine. 
 
